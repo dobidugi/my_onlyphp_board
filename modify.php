@@ -3,6 +3,63 @@
     <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     </head>
+	<html>
+    <head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	<script src="jquery-3.2.1.min.js"></script>
+	<script>
+		$(function(){
+			var i =0;
+			var removecnt=0;
+			var lastremovecnt=0;
+			var time = document.body.offsetHeight * 50;   
+		        $("a").css("color","white");
+		        $("td").css("color","white");
+			$("body").css("background","#363636");
+			$("input").css("background","#363636");
+			$("input").css("color","white");
+			function init(pos,id)
+			{
+			    var pos;
+			    $("#snow").css("background","black");
+			    $("#snow").css("position","relative");
+			    var img = $("<img id="+id+" src='./snow.png' width=5 height = 5>")
+			    img.css("position","absolute");
+			    img.css("left",pos);
+			    img.appendTo(snow);
+			    img.animate({
+			    right: '+=150',
+			    top: document.body.offsetHeight,
+			    },(document.body.offsetHeight)*20);
+			}
+			function getPos()
+			{
+					return parseInt(Math.random()*(document.body.offsetWidth-0)+1);
+			}
+			setInterval(function()
+				    {
+				    for(var loop = 0; loop< (document.body.offsetWidth)/100; loop++)
+				    {
+				 	init(getPos(),i++);
+				    }
+				    },500);
+			setInterval(function()
+				    {
+				  setTimeout(function()
+				    {
+					removecnt = i;
+					setTimeout(function()
+						    {
+							 for(var del = lastremovecnt ; del < removecnt; del++)
+							 {
+							    $("#"+del).remove();
+							 }
+							 lastremovecnt = removecnt;
+							 },time/2);
+						    },time/2);
+				    },time);
+		});
+	</script>
     <body> 
     <?php 
     session_start();

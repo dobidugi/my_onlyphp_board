@@ -13,6 +13,7 @@
 			$("body").css("background","#363636");
 			$("input").css("background","#363636");
 			$("input").css("color","white");
+			$("p").css("color","white");
 			function init(pos,id)
 			{
 			    var pos;
@@ -55,19 +56,38 @@
 				    },time);
 		});
 	</script>
-	<style>
-	    a:link { color : white ; text-decoration:none }
-	</style>
-    </head>
-    <body>
+	<body>
 	<div id="snow">
 	</div>
-    <?php session_start(); 
-    if($_SESSION['is_log']==TRUE) header('Location: ./real.php'); ?>
-	<form method="POST" action="./login.php">
-		<a>로그인 아이디 &nbsp; &nbsp;: <input type="text" size=12 name="id"></a></br><br>
-		<a>로그인 비밀번호 : <input type="password" size=12 name="password"></a></br></br>
-		<input type="submit" value="로그인"> <input type="button" value="ID/PW 찾기" onclick="window.open('./search.html')">   <input type="button" value="회원가입" onclick="window.open('./make.html')">
-	</form>
+    <?php
+    session_start();
+    if($_SESSION['is_log']==TRUE)
+    {   
+	header('Location: ./index.html');
+	exit;
+    }
+    ?>
+    <form method="POST" action="./searchId.php">
+	<div align="left" style="width:14%;" padding ="1">
+	    <p>아이디찾기</p>
+	    <a>이메일&nbsp;&nbsp;:&nbsp;<input type="email" size="12" maxlength=12 name="email"></a>
+	    <br/>
+	    <a>닉네임&nbsp;&nbsp;:&nbsp;<input type="text" size="12" maxlength=12 name="nick"></a>
+	    <br/>
+	    <input style="float:right" type="submit" value="찾기">
+	</div>
+    </form>
+    <br/>
+    </br>
+    <form method="POST" action="./searchpass.php">
+	<div align="left" style="width:14%;">
+	<p>비밀번호변경</p>
+	    <a>아이디&nbsp;&nbsp;:&nbsp;<input type="text" size="12" maxlength=12 name="id"></a>
+	    <br/>
+	    <a>이메일&nbsp;&nbsp;:&nbsp;<input type="email" size="12" maxlength=12 name="email"></a>
+	    <br/>
+	    <input style="float:right" type="submit" value="찾기">
+	</div>
+    </form>
     </body>
 </html>

@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 session_start();
 class read
@@ -149,11 +148,9 @@ $obj = new read($_GET['num']);
 				    },time);
 		});
 	</script>
-	</head>
 	<body>
-	<div id="snow">
-	</div> 
-       <div>	
+	<div id="snow"> </div>
+    <div>	
 	<table border="1px" height="500" width="500">
 	    <tr>
 		<td align="center" width = "15%" height="10%">작성자</td><td width="85"><?php $obj->nick(); ?></td>
