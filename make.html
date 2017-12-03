@@ -1,0 +1,73 @@
+<html>
+    <head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	<script src="jquery-3.2.1.min.js"></script>
+	<script>
+		$(function(){
+			var i =0;
+			var removecnt=0;
+			var lastremovecnt=0;
+			var time = document.body.offsetHeight * 50;   
+		        $("a").css("color","white");
+		        $("td").css("color","white");
+			$("body").css("background","#363636");
+			$("input").css("background","#363636");
+			$("input").css("color","white");
+			function init(pos,id)
+			{
+			    var pos;
+			    $("#snow").css("background","black");
+			    $("#snow").css("position","relative");
+			    var img = $("<img id="+id+" src='./snow.png' width=5 height = 5>")
+			    img.css("position","absolute");
+			    img.css("left",pos);
+			    img.appendTo(snow);
+			    img.animate({
+			    right: '+=150',
+			    top: document.body.offsetHeight,
+			    },(document.body.offsetHeight)*20);
+			}
+			function getPos()
+			{
+					return parseInt(Math.random()*(document.body.offsetWidth-0)+1);
+			}
+			setInterval(function()
+				    {
+				    for(var loop = 0; loop< (document.body.offsetWidth)/100; loop++)
+				    {
+				 	init(getPos(),i++);
+				    }
+				    },500);
+			setInterval(function()
+				    {
+				  setTimeout(function()
+				    {
+					removecnt = i;
+					setTimeout(function()
+						    {
+							 for(var del = lastremovecnt ; del < removecnt; del++)
+							 {
+							    $("#"+del).remove();
+							 }
+							 lastremovecnt = removecnt;
+							 },time/2);
+						    },time/2);
+				    },time);
+		});
+	</script>
+	</head>
+	<body>
+	<div id="snow">
+	</div>
+	<div align="left">
+	    <form method="POST" action="./make.php">
+		<a>로그인 아이디&nbsp; &nbsp; : <input type="text" size=12 name="id" maxlength=12></a><br/><br/>
+		<a>로그인 비밀번호 : <input type="password" size=12 name="pass" maxlength=30></a><br/><br/>
+		<a>이메일 주소&nbsp; &nbsp; &nbsp; : <input type="email" size=12 name="email" maxlength=30></a><br/><br/>
+		<a>&nbsp; 닉 네 임&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;: <input type="nick" size=12 name="nick" maxlength=10></a><br/><br/>
+		<a>&nbsp; 나 &nbsp; 이 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="age" size=3 name="age" maxlength=3></a><br/><br/>
+		<input type="submit" value="회원가입">
+	    </form>
+	</div>
+    </body>
+</html>

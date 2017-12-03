@@ -1,0 +1,174 @@
+<html>
+    <head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	<script src="jquery-3.2.1.min.js"></script>
+	<script>
+		$(function(){
+			var i =0;
+			var removecnt=0;
+			var lastremovecnt=0;
+			var time = document.body.offsetHeight * 50;   
+		        $("a").css("color","white");
+		        $("td").css("color","white");
+			$("body").css("background","#363636");
+			function init(pos,id)
+			{
+			    var pos;
+			    $("#snow").css("background","black");
+			    $("#snow").css("position","relative");
+			    var img = $("<img id="+id+" src='./snow.png' width=5 height = 5>")
+			    img.css("position","absolute");
+			    img.css("left",pos);
+			    img.appendTo(snow);
+			    img.animate({
+			    right: '+=150',
+			    top: document.body.offsetHeight,
+			    },(document.body.offsetHeight)*20);
+			}
+			function getPos()
+			{
+					return parseInt(Math.random()*(document.body.offsetWidth-0)+1);
+			}
+			setInterval(function()
+				    {
+				    for(var loop = 0; loop< (document.body.offsetWidth)/100; loop++)
+				    {
+				 	init(getPos(),i++);
+				    }
+				    },500);
+			setInterval(function()
+				    {
+				  setTimeout(function()
+				    {
+					removecnt = i;
+					setTimeout(function()
+						    {
+							 for(var del = lastremovecnt ; del < removecnt; del++)
+							 {
+							    $("#"+del).remove();
+							 }
+							 lastremovecnt = removecnt;
+							 },time/2);
+						    },time/2);
+				    },time);
+		});
+	</script>
+	<style>
+	    a:link { color : white ; text-decoration:none }
+	</style>
+    </head>
+    <body>
+    <div id="snow">
+
+    </div>
+    <?php
+//    session_save_path('./s');
+    session_start();
+    if($_SESSION['is_log']==FALSE){?>
+	<div align="right"" >
+	    <a href="./login.html">로그인</a>
+	    <a href="./make.html">회원가입</a>
+	</div>
+    <?php
+    }else if($_SESSION['is_log']==TRUE){?>
+	<div style="color:white" align="left" style="float:left">
+	   <?php echo $_SESSION['nick']." 님 안녕하세요";?>
+	 </div>
+	 <div aling="right" style="float:right">
+	   <a href="./logout.php">로그 아웃</a>
+	   <a href="./s_info.html">회원정보수정</a>
+	 </div>
+    <?php 
+    }?>
+    <br/>
+    <div  align="right">
+	<span style="color : white; " id="today"></span>
+	<span style="color : white; " id="times"></span>
+    </div>
+    <script>
+        function today()
+        {
+            now = new Date();
+            year = now.getFullYear();
+            month = now.getMonth()+1;
+            date = now.getDate();        
+            print = year + "/" + month + "/" + date;
+            document.getElementById("today").innerHTML = print;
+											            
+	 }
+        function times()
+        {
+            now = new Date();
+            hour = now.getHours();
+            min = now.getMinutes();
+            sec = now.getSeconds();
+            var set;
+            if(hour <= 12)
+            {
+               set="AM"
+            }
+            else
+            {
+               set="PM"
+               hour = hour - 12;
+            }
+            if (hour < 10)
+            {
+               hour = '0' + hour;
+	    }
+	    if(min < 10)
+	    {
+	       min = '0' + min;
+	    }
+	       if (sec < 10)
+	    {
+	       sec = '0' + sec;
+	    }
+	       if(hour == 00)
+	   {
+	       hour = 12
+	   }
+	   print = set+" "+ hour + ":" + min + ":" + sec;
+	   document.getElementById("times").innerHTML = print;
+       	}
+        window.onload = function(){
+              today();
+              setInterval(function(){
+                  times();
+              }, 1000);
+        };
+    </script>
+    <hr color="#bdbdbd" width="100%">
+    <div style="float:left">
+	<a>현재접속자수 : <?php system("netstat -an | grep :80.*ESTABLISHED | wc -l")?></a>
+    </div>
+    <div style="float:right">
+	<a href="./write.html">글쓰기</a>
+    </div>
+    <br/>
+    <hr color="#bdbdbd" width="100%">
+    <?php
+    include "./dbcon.php";
+    $sql = "SELECT * FROM  board ORDER BY num DESC";
+    $res = $conn->query($sql);
+    while($row = $res->fetch_assoc())
+    {
+    ?>
+    <div>
+    <table align="center">
+	<tr>
+	    <td width=5%><?php echo $row['num'];?></td>
+	    <td width=50% align="center"><a href="./read.php?num=<?php echo $row['num'];?>"><?php echo $row['subj'];?></a></td>
+	    <td width=20% align="center"><?php echo $row['nickname'];?></td>
+	    <td width=20%><?php echo $row['time'];?></td>
+	    <td width=10% align="center"><?php echo $row['see'];?></td>
+	</tr>
+    </table>    
+    </div>
+    <hr color="#999999" width=100%>
+    <?php
+
+    }
+    ?>
+    </body>
+</html>

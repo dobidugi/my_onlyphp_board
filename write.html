@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    </head>
+    <body> 
+    <?php 
+    session_start();
+    if($_SESSION['is_log']==FALSE)
+    {   
+	header('Location: ./login.html');
+	exit;
+    }   
+    ?>
+	<form enctype ="multipart/form-data"  method="POST" action="./write.php"> 
+	<table border="1px">
+	    <tr>
+		<td>제목</td><td><input type="text" size=98 maxlength=12  name="subject"></td>
+	    </tr>
+	    <tr>
+		<td>내용</td><td><textarea rows=30 cols=100 maxlength=500  name="main"></textarea></td>
+	    </tr>
+	    <tr>
+		<td>파일</td>
+		<td>
+		<input type="hidden" name="MAX_FILE_SIZE" value="300000"/>
+		<input style="width:80%" type="file" name="userfile"/>
+		</td>
+	    </tr>
+	    <tr>
+		<td></td><td><input type="submit" style="width:100%" value="글쓰기"></td>
+	    </tr>
+	</table>
+	</form>
+    </body>
+</html>
